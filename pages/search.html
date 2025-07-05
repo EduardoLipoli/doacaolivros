@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar Livros - Educação para Todos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'azul-escuro': '#1E3A8A',
+                        'azul-claro': '#3B82F6',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+        body { font-family: 'Poppins', sans-serif; background-color: #f0f7ff; }
+        .book-card { transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer; }
+        .book-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); }
+        #bottom-nav-bar .nav-item.active i, #bottom-nav-bar .nav-item.active span { color: #1E3A8A; }
+        .filter-btn.active { background-color: #1E3A8A; color: white; }
+        .filter-btn { transition: background-color 0.2s ease-in-out; }
+    </style>
+</head>
+
+<body class="max-w-md mx-auto bg-gray-50 min-h-screen pb-20">
+
+    <header class="bg-azul-escuro text-white p-4 sticky top-0 z-20">
+        <div class="flex items-center">
+            <a href="home.html" class="mr-4">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <h1 class="text-xl font-bold">Buscar Livros</h1>
+        </div>
+    </header>
+    
+    <main class="p-4">
+        <div class="relative mb-4">
+            <input type="text" id="search-input" class="w-full px-4 py-3 pl-12 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-azul-claro" placeholder="Palavra-chave, título ou autor">
+            <div class="absolute left-4 top-3.5 text-gray-400">
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+        
+        <div class="mb-6">
+            <div class="mb-3">
+                <h3 class="font-semibold text-gray-700 mb-2">Tipo</h3>
+                <div id="filter-type" class="flex space-x-2">
+                    <button class="filter-btn flex-1 py-2 px-4 rounded-lg border border-gray-300" data-filter="Doação">Doação</button>
+                    <button class="filter-btn flex-1 py-2 px-4 rounded-lg border border-gray-300" data-filter="Venda">Venda</button>
+                </div>
+            </div>
+            <div>
+                <h3 class="font-semibold text-gray-700 mb-2">Condição</h3>
+                <div id="filter-condition" class="flex space-x-2">
+                    <button class="filter-btn flex-1 py-2 px-4 rounded-lg border border-gray-300" data-filter="Novo">Novo</button>
+                    <button class="filter-btn flex-1 py-2 px-4 rounded-lg border border-gray-300" data-filter="Usado">Usado</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="book-list" class="space-y-4"></div>
+        
+        <div id="no-results" class="hidden text-center py-10">
+            <i class="fas fa-book-dead text-4xl text-gray-400 mb-4"></i>
+            <h3 class="font-semibold text-lg text-gray-700">Nenhum livro encontrado</h3>
+            <p class="text-gray-500">Tente ajustar sua busca ou filtros.</p>
+        </div>
+    </main>
+
+        <div id="bottom-nav-bar"
+        class="fixed bottom-0 left-0 right-0 w-full max-w-md mx-auto bg-white shadow-lg border-t border-gray-200">
+        <div class="grid grid-cols-5 py-3">
+            <a href="home.html" class="flex flex-col items-center nav-item">
+                <i class="fas fa-home text-gray-400 text-xl"></i>
+                <span class="text-xs mt-1 text-gray-400">Início</span>
+            </a>
+            <a href="donate.html" class="flex flex-col items-center nav-item">
+                <i class="fas fa-book text-gray-400 text-xl"></i>
+                <span class="text-xs mt-1 text-gray-400">Doar</span>
+            </a>
+            <a href="search.html" class="flex flex-col items-center nav-item active">
+                <i class="fas fa-search text-xl"></i>
+                <span class="text-xs mt-1">Buscar</span>
+            </a>
+            <a href="mybooks.html" class="flex flex-col items-center nav-item">
+                <i class="fas fa-book-open text-gray-400 text-xl"></i>
+                <span class="text-xs mt-1 text-gray-400">Meus Livros</span>
+            </a>
+            <a href="profile.html" class="flex flex-col items-center nav-item">
+                <i class="fas fa-user text-gray-400 text-xl"></i>
+                <span class="text-xs mt-1 text-gray-400">Perfil</span>
+            </a>
+        </div>
+    </div>
+
+    <div id="details-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-40 transition-opacity duration-300">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-sm p-6 relative">
+            <button onclick="fecharDetalhes()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 transition">
+                <i class="fas fa-times fa-lg"></i>
+            </button>
+            <h3 id="details-title" class="text-2xl font-bold text-gray-800 mb-1"></h3>
+            <p id="details-author" class="text-md text-gray-600 mb-4"></p>
+            
+            <div id="details-price" class="text-3xl font-bold text-azul-escuro mb-4"></div>
+
+            <div class="text-left space-y-2 mb-6 border-t border-b py-4">
+                <p class="text-sm text-gray-700 flex justify-between"><span><i class="fas fa-book mr-2 text-gray-400"></i><strong class="font-medium">Editora:</strong></span> <span id="details-publisher"></span></p>
+                <p class="text-sm text-gray-700 flex justify-between"><span><i class="fas fa-calendar-alt mr-2 text-gray-400"></i><strong class="font-medium">Ano:</strong></span> <span id="details-year"></span></p>
+                <p class="text-sm text-gray-700 flex justify-between"><span><i class="fas fa-tag mr-2 text-gray-400"></i><strong class="font-medium">Categoria:</strong></span> <span id="details-category"></span></p>
+                <p class="text-sm text-gray-700 flex justify-between items-center"><span><i class="fas fa-info-circle mr-2 text-gray-400"></i><strong class="font-medium">Condição:</strong></span> <span id="details-condition" class="text-xs px-2 py-1 rounded-full"></span></p>
+            </div>
+
+            <button id="details-action-btn" class="w-full bg-azul-escuro text-white py-2.5 rounded-lg font-semibold hover:bg-azul-claro transition">
+                Solicitar Livro
+            </button>
+        </div>
+    </div>
+    
+    <div id="success-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 transition-opacity duration-300">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-sm p-6 text-center">
+            <div class="mx-auto bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                <i class="fas fa-check-circle text-green-500 text-4xl"></i>
+            </div>
+            <h3 id="success-title" class="text-lg font-semibold text-gray-800"></h3>
+            <p id="success-modal-text" class="text-gray-600 mt-2 mb-6"></p>
+            <button onclick="fecharModalSucesso()" class="w-full bg-azul-escuro text-white py-2 rounded-lg font-medium hover:bg-azul-claro transition">
+                Entendido
+            </button>
+        </div>
+    </div>
+
+
+<script>
+// --- BANCO DE DADOS (SIMULADO) ---
+const allBooks = [
+    // 10 Livros Originais
+    { title: 'Dom Casmurro', author: 'Machado de Assis', publisher: 'Livraria Garnier', year: 1899, type: 'Doação', condition: 'Usado', price: 0, category: 'Clássico' },
+    { title: 'O Quinze', author: 'Rachel de Queiroz', publisher: 'José Olympio', year: 1930, type: 'Doação', condition: 'Usado', price: 0, category: 'Romance' },
+    { title: 'Capitães da Areia', author: 'Jorge Amado', publisher: 'Livraria José Olympio Editora', year: 1937, type: 'Venda', condition: 'Usado', price: 25.00, category: 'Romance' },
+    { title: 'A Hora da Estrela', author: 'Clarice Lispector', publisher: 'Editora Rocco', year: 1977, type: 'Venda', condition: 'Novo', price: 35.50, category: 'Ficção' },
+    { title: 'Memórias Póstumas de Brás Cubas', author: 'Machado de Assis', publisher: 'Tipografia Nacional', year: 1881, type: 'Doação', condition: 'Usado', price: 0, category: 'Clássico' },
+    { title: 'Vidas Secas', author: 'Graciliano Ramos', publisher: 'José Olympio', year: 1938, type: 'Doação', condition: 'Novo', price: 0, category: 'Romance' },
+    { title: 'O Cortiço', author: 'Aluísio Azevedo', publisher: 'Livraria Garnier', year: 1890, type: 'Venda', condition: 'Usado', price: 19.90, category: 'Naturalismo' },
+    { title: 'Macunaíma', author: 'Mário de Andrade', publisher: 'Livraria Martins Editora', year: 1928, type: 'Doação', condition: 'Novo', price: 0, category: 'Modernismo' },
+    { title: 'O Alquimista', author: 'Paulo Coelho', publisher: 'Rocco', year: 1988, type: 'Venda', condition: 'Novo', price: 42.00, category: 'Autoajuda' },
+    { title: 'Quarto de Despejo', author: 'Carolina Maria de Jesus', publisher: 'Livraria Francisco Alves', year: 1960, type: 'Venda', condition: 'Novo', price: 38.00, category: 'Biografia' },
+
+    // +50 Livros Adicionais
+    { title: '1984', author: 'George Orwell', publisher: 'Companhia das Letras', year: 1949, type: 'Venda', condition: 'Novo', price: 45.00, category: 'Ficção Científica' },
+    { title: 'O Senhor dos Anéis: A Sociedade do Anel', author: 'J.R.R. Tolkien', publisher: 'HarperCollins', year: 1954, type: 'Venda', condition: 'Novo', price: 59.90, category: 'Fantasia' },
+    { title: 'O Pequeno Príncipe', author: 'Antoine de Saint-Exupéry', publisher: 'Agir', year: 1943, type: 'Doação', condition: 'Usado', price: 0, category: 'Infantil' },
+    { title: 'Cem Anos de Solidão', author: 'Gabriel García Márquez', publisher: 'Record', year: 1967, type: 'Venda', condition: 'Usado', price: 35.00, category: 'Realismo Mágico' },
+    { title: 'Orgulho e Preconceito', author: 'Jane Austen', publisher: 'Martin Claret', year: 1813, type: 'Doação', condition: 'Novo', price: 0, category: 'Romance' },
+    { title: 'O Grande Gatsby', author: 'F. Scott Fitzgerald', publisher: 'Penguin Books', year: 1925, type: 'Venda', condition: 'Novo', price: 41.80, category: 'Clássico' },
+    { title: 'Ensaio sobre a Cegueira', author: 'José Saramago', publisher: 'Companhia das Letras', year: 1995, type: 'Doação', condition: 'Usado', price: 0, category: 'Ficção' },
+    { title: 'A Revolução dos Bichos', author: 'George Orwell', publisher: 'Companhia das Letras', year: 1945, type: 'Venda', condition: 'Novo', price: 29.90, category: 'Sátira' },
+    { title: 'O Apanhador no Campo de Centeio', author: 'J.D. Salinger', publisher: 'Editora do Autor', year: 1951, type: 'Venda', condition: 'Usado', price: 22.50, category: 'Ficção' },
+    { title: 'Fahrenheit 451', author: 'Ray Bradbury', publisher: 'Globo Livros', year: 1953, type: 'Doação', condition: 'Novo', price: 0, category: 'Ficção Científica' },
+    { title: 'Admirável Mundo Novo', author: 'Aldous Huxley', publisher: 'Globo Livros', year: 1932, type: 'Venda', condition: 'Novo', price: 49.90, category: 'Ficção Científica' },
+    { title: 'A Culpa é das Estrelas', author: 'John Green', publisher: 'Intrínseca', year: 2012, type: 'Doação', condition: 'Usado', price: 0, category: 'Jovem Adulto' },
+    { title: 'Harry Potter e a Pedra Filosofal', author: 'J.K. Rowling', publisher: 'Rocco', year: 1997, type: 'Venda', condition: 'Usado', price: 28.00, category: 'Fantasia' },
+    { title: 'O Hobbit', author: 'J.R.R. Tolkien', publisher: 'HarperCollins', year: 1937, type: 'Venda', condition: 'Novo', price: 55.00, category: 'Fantasia' },
+    { title: 'O Nome da Rosa', author: 'Umberto Eco', publisher: 'Record', year: 1980, type: 'Doação', condition: 'Usado', price: 0, category: 'Mistério' },
+    { title: 'Grande Sertão: Veredas', author: 'João Guimarães Rosa', publisher: 'Nova Fronteira', year: 1956, type: 'Doação', condition: 'Usado', price: 0, category: 'Clássico' },
+    { title: 'A Menina que Roubava Livros', author: 'Markus Zusak', publisher: 'Intrínseca', year: 2005, type: 'Venda', condition: 'Novo', price: 48.70, category: 'Ficção Histórica' },
+    { title: 'O Sol é para Todos', author: 'Harper Lee', publisher: 'José Olympio', year: 1960, type: 'Venda', condition: 'Usado', price: 33.00, category: 'Clássico' },
+    { title: 'Crime e Castigo', author: 'Fiódor Dostoiévski', publisher: 'Editora 34', year: 1866, type: 'Doação', condition: 'Novo', price: 0, category: 'Clássico' },
+    { title: 'A Metamorfose', author: 'Franz Kafka', publisher: 'Companhia das Letras', year: 1915, type: 'Doação', condition: 'Usado', price: 0, category: 'Ficção' },
+    { title: 'O Morro dos Ventos Uivantes', author: 'Emily Brontë', publisher: 'Zahar', year: 1847, type: 'Venda', condition: 'Novo', price: 39.90, category: 'Romance Gótico' },
+    { title: 'Drácula', author: 'Bram Stoker', publisher: 'Darkside Books', year: 1897, type: 'Venda', condition: 'Novo', price: 65.00, category: 'Terror' },
+    { title: 'Frankenstein', author: 'Mary Shelley', publisher: 'Zahar', year: 1818, type: 'Doação', condition: 'Usado', price: 0, category: 'Terror' },
+    { title: 'O Retrato de Dorian Gray', author: 'Oscar Wilde', publisher: 'Penguin Classics', year: 1890, type: 'Venda', condition: 'Usado', price: 24.00, category: 'Clássico' },
+    { title: 'A Mão e a Luva', author: 'Machado de Assis', publisher: 'Principis', year: 1874, type: 'Doação', condition: 'Novo', price: 0, category: 'Romance' },
+    { title: 'O Guarani', author: 'José de Alencar', publisher: 'Ática', year: 1857, type: 'Doação', condition: 'Usado', price: 0, category: 'Clássico' },
+    { title: 'Iracema', author: 'José de Alencar', publisher: 'Moderna', year: 1865, type: 'Venda', condition: 'Usado', price: 18.50, category: 'Romance' },
+    { title: 'Sagarana', author: 'João Guimarães Rosa', publisher: 'Nova Fronteira', year: 1946, type: 'Venda', condition: 'Novo', price: 51.20, category: 'Contos' },
+    { title: 'O Tempo e o Vento', author: 'Erico Verissimo', publisher: 'Companhia das Letras', year: 1949, type: 'Venda', condition: 'Usado', price: 75.00, category: 'Ficção Histórica' },
+    { title: 'Eu, Robô', author: 'Isaac Asimov', publisher: 'Aleph', year: 1950, type: 'Doação', condition: 'Novo', price: 0, category: 'Ficção Científica' },
+    { title: 'Duna', author: 'Frank Herbert', publisher: 'Aleph', year: 1965, type: 'Venda', condition: 'Novo', price: 89.90, category: 'Ficção Científica' },
+    { title: 'O Guia do Mochileiro das Galáxias', author: 'Douglas Adams', publisher: 'Sextante', year: 1979, type: 'Venda', condition: 'Usado', price: 32.00, category: 'Comédia' },
+    { title: 'O Conto da Aia', author: 'Margaret Atwood', publisher: 'Rocco', year: 1985, type: 'Doação', condition: 'Novo', price: 0, category: 'Ficção Distópica' },
+    { title: 'A Cor Púrpura', author: 'Alice Walker', publisher: 'Tag Livros', year: 1982, type: 'Venda', condition: 'Novo', price: 47.80, category: 'Drama' },
+    { title: 'O Amor nos Tempos do Cólera', author: 'Gabriel García Márquez', publisher: 'Record', year: 1985, type: 'Venda', condition: 'Usado', price: 36.00, category: 'Romance' },
+    { title: 'O Primo Basílio', author: 'Eça de Queirós', publisher: 'L&PM Editores', year: 1878, type: 'Doação', condition: 'Usado', price: 0, category: 'Realismo' },
+    { title: 'A Arte da Guerra', author: 'Sun Tzu', publisher: 'Jardim dos Livros', year: -500, type: 'Doação', condition: 'Novo', price: 0, category: 'Estratégia' },
+    { title: 'Sapiens: Uma Breve História da Humanidade', author: 'Yuval Noah Harari', publisher: 'L&PM Editores', year: 2011, type: 'Venda', condition: 'Novo', price: 69.90, category: 'Não-Ficção' },
+    { title: 'O Diário de Anne Frank', author: 'Anne Frank', publisher: 'Record', year: 1947, type: 'Doação', condition: 'Usado', price: 0, category: 'Biografia' },
+    { title: 'Os Sete Maridos de Evelyn Hugo', author: 'Taylor Jenkins Reid', publisher: 'Paralela', year: 2017, type: 'Venda', condition: 'Novo', price: 54.90, category: 'Ficção Histórica' },
+    { title: 'É Assim que Acaba', author: 'Colleen Hoover', publisher: 'Galera Record', year: 2016, type: 'Venda', condition: 'Usado', price: 39.00, category: 'Romance' },
+    { title: 'Torto Arado', author: 'Itamar Vieira Junior', publisher: 'Todavia', year: 2019, type: 'Venda', condition: 'Novo', price: 52.90, category: 'Ficção' },
+    { title: 'Pequeno Manual Antirracista', author: 'Djamila Ribeiro', publisher: 'Companhia das Letras', year: 2019, type: 'Doação', condition: 'Novo', price: 0, category: 'Não-Ficção' },
+    { title: 'Mulheres que Correm com os Lobos', author: 'Clarissa Pinkola Estés', publisher: 'Rocco', year: 1992, type: 'Venda', condition: 'Usado', price: 44.00, category: 'Psicologia' },
+    { title: 'O Poder do Hábito', author: 'Charles Duhigg', publisher: 'Objetiva', year: 2012, type: 'Venda', condition: 'Novo', price: 57.80, category: 'Autoajuda' },
+    { title: 'A Sutil Arte de Ligar o F*da-se', author: 'Mark Manson', publisher: 'Intrínseca', year: 2016, type: 'Venda', condition: 'Usado', price: 31.50, category: 'Autoajuda' },
+    { title: 'O Milagre da Manhã', author: 'Hal Elrod', publisher: 'BestSeller', year: 2012, type: 'Doação', condition: 'Novo', price: 0, category: 'Desenvolvimento' },
+    { title: 'O Homem Mais Rico da Babilônia', author: 'George S. Clason', publisher: 'HarperCollins', year: 1926, type: 'Venda', condition: 'Novo', price: 28.90, category: 'Finanças' },
+    { title: 'Pai Rico, Pai Pobre', author: 'Robert T. Kiyosaki', publisher: 'Alta Books', year: 1997, type: 'Doação', condition: 'Usado', price: 0, category: 'Finanças' },
+    { title: 'Mindset: A Nova Psicologia do Sucesso', author: 'Carol S. Dweck', publisher: 'Objetiva', year: 2006, type: 'Venda', condition: 'Novo', price: 49.90, category: 'Psicologia' }
+];
+// --- ELEMENTOS DO DOM ---
+const bookListContainer = document.getElementById('book-list');
+const searchInput = document.getElementById('search-input');
+const filterTypeContainer = document.getElementById('filter-type');
+const filterConditionContainer = document.getElementById('filter-condition');
+const noResultsDiv = document.getElementById('no-results');
+
+// --- ESTADO DOS FILTROS ---
+let activeFilters = { type: null, condition: null, searchTerm: '' };
+
+// --- FUNÇÃO PARA RENDERIZAR OS LIVROS ---
+function renderBooks(booksToRender) {
+    bookListContainer.innerHTML = '';
+    noResultsDiv.classList.toggle('hidden', booksToRender.length > 0);
+
+    booksToRender.forEach(book => {
+        const typeTag = book.type === 'Doação'
+            ? `<span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">Doação</span>`
+            : `<span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded-full">Venda: R$ ${book.price.toFixed(2)}</span>`;
+        const conditionTag = book.condition === 'Novo'
+            ? `<span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Novo</span>`
+            : `<span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">Usado</span>`;
+
+        const bookCardHTML = `
+            <a onclick='abrirDetalhes(${JSON.stringify(book)})' class="book-card block bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="p-4">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h3 class="font-bold text-lg">${book.title}</h3>
+                            <p class="text-gray-600">${book.author}</p>
+                        </div>
+                        <div class="flex flex-col items-end space-y-1.5 flex-shrink-0 ml-2">
+                            ${conditionTag}
+                            ${typeTag}
+                        </div>
+                    </div>
+                </div>
+            </a>`;
+        bookListContainer.innerHTML += bookCardHTML;
+    });
+}
+
+// --- FUNÇÃO PARA APLICAR FILTROS ---
+function applyFilters() {
+    let filteredBooks = [...allBooks];
+    const searchTerm = activeFilters.searchTerm.toLowerCase();
+
+    if (searchTerm) {
+        filteredBooks = filteredBooks.filter(b => b.title.toLowerCase().includes(searchTerm) || b.author.toLowerCase().includes(searchTerm));
+    }
+    if (activeFilters.type) {
+        filteredBooks = filteredBooks.filter(b => b.type === activeFilters.type);
+    }
+    if (activeFilters.condition) {
+        filteredBooks = filteredBooks.filter(b => b.condition === activeFilters.condition);
+    }
+    renderBooks(filteredBooks);
+}
+
+// --- EVENT LISTENERS ---
+searchInput.addEventListener('input', e => {
+    activeFilters.searchTerm = e.target.value;
+    applyFilters();
+});
+
+function setupFilterListeners(container, filterKey) {
+    container.addEventListener('click', e => {
+        const btn = e.target.closest('button');
+        if (!btn) return;
+        const filterValue = btn.dataset.filter;
+        if (btn.classList.contains('active')) {
+            btn.classList.remove('active');
+            activeFilters[filterKey] = null;
+        } else {
+            container.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeFilters[filterKey] = filterValue;
+        }
+        applyFilters();
+    });
+}
+setupFilterListeners(filterTypeContainer, 'type');
+setupFilterListeners(filterConditionContainer, 'condition');
+
+// --- LÓGICA DOS MODAIS ---
+const detailsModal = {
+    modal: document.getElementById('details-modal'),
+    title: document.getElementById('details-title'),
+    author: document.getElementById('details-author'),
+    price: document.getElementById('details-price'),
+    publisher: document.getElementById('details-publisher'),
+    year: document.getElementById('details-year'),
+    category: document.getElementById('details-category'),
+    condition: document.getElementById('details-condition'),
+    actionBtn: document.getElementById('details-action-btn')
+};
+const successModal = {
+    modal: document.getElementById('success-modal'),
+    title: document.getElementById('success-title'),
+    text: document.getElementById('success-modal-text')
+};
+
+function abrirDetalhes(book) {
+    detailsModal.title.textContent = book.title;
+    detailsModal.author.textContent = book.author;
+    detailsModal.publisher.textContent = book.publisher;
+    detailsModal.year.textContent = book.year;
+    detailsModal.category.textContent = book.category;
+    detailsModal.condition.textContent = book.condition;
+    detailsModal.condition.className = 'text-xs px-2 py-1 rounded-full ' + (book.condition === 'Novo' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800');
+
+    if (book.type === 'Venda') {
+        detailsModal.price.textContent = `R$ ${book.price.toFixed(2)}`;
+        detailsModal.actionBtn.textContent = 'Comprar Livro';
+    } else {
+        detailsModal.price.textContent = 'Grátis';
+        detailsModal.actionBtn.textContent = 'Solicitar Doação';
+    }
+    detailsModal.actionBtn.onclick = () => {
+        fecharDetalhes();
+        setTimeout(() => abrirModalSucesso(book), 200);
+    };
+    detailsModal.modal.classList.remove('hidden');
+}
+function fecharDetalhes() {
+    detailsModal.modal.classList.add('hidden');
+}
+
+function abrirModalSucesso(book) {
+    if (book.type === 'Venda') {
+        successModal.title.textContent = 'Pedido de Compra Enviado!';
+        successModal.text.textContent = `Sua intenção de compra para "${book.title}" foi registrada. O doador entrará em contato em breve.`;
+    } else {
+        successModal.title.textContent = 'Solicitação Recebida!';
+        successModal.text.textContent = `Seu pedido de doação para "${book.title}" foi enviado. Aguarde a confirmação.`;
+    }
+    successModal.modal.classList.remove('hidden');
+}
+function fecharModalSucesso() {
+    successModal.modal.classList.add('hidden');
+}
+
+// --- INICIALIZAÇÃO ---
+renderBooks(allBooks);
+
+</script>
+
+</body>
+</html>

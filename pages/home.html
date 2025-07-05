@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Início - Educação para Todos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'azul-escuro': '#1E3A8A',
+                        'azul-claro': '#3B82F6',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+        body { font-family: 'Poppins', sans-serif; background-color: #f0f7ff; }
+        .book-card { transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer; }
+        .book-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); }
+        #bottom-nav-bar .nav-item.active i, #bottom-nav-bar .nav-item.active span { color: #1E3A8A; }
+    </style>
+</head>
+
+<body class="max-w-md mx-auto bg-gray-50 min-h-screen pb-20">
+
+    <header class="bg-azul-escuro text-white p-4 rounded-b-2xl shadow-lg">
+        <div class="flex justify-between items-center">
+            <div>
+                <h1 class="text-xl font-bold">EDUCAÇÃO PARA TODOS</h1>
+                <p class="text-azul-claro text-sm">Bem-vindo, Maria!</p>
+            </div>
+            <a href="profile.html" class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                <i class="fas fa-user text-azul-escuro"></i>
+            </a>
+        </div>
+    </header>
+    
+    <main class="mt-8 px-4">
+        <h2 class="text-xl font-bold text-gray-800 mb-4">O que você precisa?</h2>
+        
+        <div class="grid grid-cols-2 gap-4">
+            <a href="donate.html" class="bg-white rounded-xl shadow-md p-6 text-center">
+                <div class="mx-auto bg-azul-claro w-14 h-14 rounded-full flex items-center justify-center mb-3">
+                    <i class="fas fa-book text-white text-xl"></i>
+                </div>
+                <h3 class="font-semibold text-gray-800">Doar Livro</h3>
+            </a>
+            
+            <a href="search.html" class="bg-white rounded-xl shadow-md p-6 text-center">
+                <div class="mx-auto bg-azul-claro w-14 h-14 rounded-full flex items-center justify-center mb-3">
+                    <i class="fas fa-search text-white text-xl"></i>
+                </div>
+                <h3 class="font-semibold text-gray-800">Buscar Livros</h3>
+            </a>
+            
+            <a href="mybooks.html" class="bg-white rounded-xl shadow-md p-6 text-center">
+                <div class="mx-auto bg-azul-claro w-14 h-14 rounded-full flex items-center justify-center mb-3">
+                    <i class="fas fa-book-open text-white text-xl"></i>
+                </div>
+                <h3 class="font-semibold text-gray-800">Meus Livros</h3>
+            </a>
+            
+            <a href="profile.html" class="bg-white rounded-xl shadow-md p-6 text-center">
+                <div class="mx-auto bg-azul-claro w-14 h-14 rounded-full flex items-center justify-center mb-3">
+                    <i class="fas fa-user text-white text-xl"></i>
+                </div>
+                <h3 class="font-semibold text-gray-800">Perfil</h3>
+            </a>
+        </div>
+    
+        <div class="mt-8">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Livros Disponíveis</h2>
+            
+            <div class="space-y-4">
+                <a onclick="abrirDetalhes('Dom Casmurro', 'Machado de Assis', 'Livraria Garnier', '1899', 'Disponível', 'green')" class="book-card block bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="p-4">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-lg">Dom Casmurro</h3>
+                                <p class="text-gray-600">Machado de Assis</p>
+                            </div>
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Disponível</span>
+                        </div>
+                    </div>
+                </a>
+                
+                <a onclick="abrirDetalhes('O Quinze', 'Rachel de Queiroz', 'José Olympio', '1930', 'Disponível', 'green')" class="book-card block bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="p-4">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-lg">O Quinze</h3>
+                                <p class="text-gray-600">Rachel de Queiroz</p>
+                            </div>
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Disponível</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a onclick="abrirDetalhes('Capitães da Areia', 'Jorge Amado', 'Livraria José Olympio Editora', '1937', 'Usado', 'yellow')" class="book-card block bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="p-4">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-lg">Capitães da Areia</h3>
+                                <p class="text-gray-600">Jorge Amado</p>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">Usado</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a onclick="abrirDetalhes('A Hora da Estrela', 'Clarice Lispector', 'Editora Rocco', '1977', 'Disponível', 'green')" class="book-card block bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="p-4">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-lg">A Hora da Estrela</h3>
+                                <p class="text-gray-600">Clarice Lispector</p>
+                            </div>
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Disponível</span>
+                        </div>
+                    </div>
+                </a>
+                
+                <a onclick="abrirDetalhes('Memórias Póstumas de Brás Cubas', 'Machado de Assis', 'Tipografia Nacional', '1881', 'Usado', 'yellow')" class="book-card block bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="p-4">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-lg">Memórias Póstumas de Brás Cubas</h3>
+                                <p class="text-gray-600">Machado de Assis</p>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">Usado</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+        <div id="bottom-nav-bar"
+        class="fixed bottom-0 left-0 right-0 w-full max-w-md mx-auto bg-white shadow-lg border-t border-gray-200">
+        <div class="grid grid-cols-5 py-3">
+            <a href="home.html" class="flex flex-col items-center nav-item active">
+                <i class="fas fa-home text-xl"></i>
+                <span class="text-xs mt-1">Início</span>
+            </a>
+            <a href="donate.html" class="flex flex-col items-center nav-item">
+                <i class="fas fa-book text-gray-400 text-xl"></i>
+                <span class="text-xs mt-1 text-gray-400">Doar</span>
+            </a>
+            <a href="search.html" class="flex flex-col items-center nav-item">
+                <i class="fas fa-search text-gray-400 text-xl"></i>
+                <span class="text-xs mt-1 text-gray-400">Buscar</span>
+            </a>
+            <a href="mybooks.html" class="flex flex-col items-center nav-item">
+                <i class="fas fa-book-open text-gray-400 text-xl"></i>
+                <span class="text-xs mt-1 text-gray-400">Meus Livros</span>
+            </a>
+            <a href="profile.html" class="flex flex-col items-center nav-item">
+                <i class="fas fa-user text-gray-400 text-xl"></i>
+                <span class="text-xs mt-1 text-gray-400">Perfil</span>
+            </a>
+        </div>
+    </div>
+
+    <div id="bottom-nav-bar" class="fixed bottom-0 left-0 right-0 w-full max-w-md mx-auto bg-white shadow-lg border-t border-gray-200">
+        </div>
+
+    <div id="details-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-40">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-sm p-6 relative">
+            <button onclick="fecharDetalhes()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-800">
+                <i class="fas fa-times fa-lg"></i>
+            </button>
+            <h3 id="details-title" class="text-2xl font-bold text-gray-800 mb-2"></h3>
+            <p id="details-author" class="text-lg text-gray-600 mb-4"></p>
+            
+            <div class="text-left space-y-2 mb-6">
+                <p class="text-sm text-gray-700"><i class="fas fa-book mr-2 text-azul-claro"></i><strong class="font-medium">Editora:</strong> <span id="details-publisher"></span></p>
+                <p class="text-sm text-gray-700"><i class="fas fa-calendar-alt mr-2 text-azul-claro"></i><strong class="font-medium">Ano:</strong> <span id="details-year"></span></p>
+                <p class="text-sm text-gray-700"><i class="fas fa-info-circle mr-2 text-azul-claro"></i><strong class="font-medium">Status:</strong> <span id="details-status" class="text-xs px-2 py-1 rounded-full"></span></p>
+            </div>
+
+            <button id="details-solicitar-btn" class="w-full bg-azul-escuro text-white py-2.5 rounded-lg font-medium hover:bg-azul-claro transition">
+                Solicitar Livro
+            </button>
+        </div>
+    </div>
+    
+    <div id="success-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-sm p-6 text-center">
+            <div class="mx-auto bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                <i class="fas fa-check-circle text-green-500 text-4xl"></i>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-800">Solicitação Recebida!</h3>
+            <p id="success-modal-text" class="text-gray-600 mt-2 mb-6">Você será notificado em breve sobre o seu pedido.</p>
+            <button onclick="fecharModalSucesso()" class="w-full bg-azul-escuro text-white py-2 rounded-lg font-medium hover:bg-azul-claro transition">
+                Entendido
+            </button>
+        </div>
+    </div>
+
+
+    <script>
+        // Referências aos modais e seus elementos
+        const detailsModal = document.getElementById('details-modal');
+        const successModal = document.getElementById('success-modal');
+        
+        const detailsTitle = document.getElementById('details-title');
+        const detailsAuthor = document.getElementById('details-author');
+        const detailsPublisher = document.getElementById('details-publisher');
+        const detailsYear = document.getElementById('details-year');
+        const detailsStatus = document.getElementById('details-status');
+        const detailsSolicitarBtn = document.getElementById('details-solicitar-btn');
+
+        const successModalText = document.getElementById('success-modal-text');
+
+        // Abre o modal de detalhes com as informações do livro
+        function abrirDetalhes(titulo, autor, editora, ano, status, corStatus) {
+            detailsTitle.textContent = titulo;
+            detailsAuthor.textContent = autor;
+            detailsPublisher.textContent = editora;
+            detailsYear.textContent = ano;
+            detailsStatus.textContent = status;
+
+            // Limpa e aplica a cor correta para o status
+            detailsStatus.className = 'text-xs px-2 py-1 rounded-full'; // Reseta classes
+            if (corStatus === 'green') {
+                detailsStatus.classList.add('bg-green-100', 'text-green-800');
+            } else {
+                detailsStatus.classList.add('bg-yellow-100', 'text-yellow-800');
+            }
+
+            // Define o que o botão "Solicitar" fará
+            detailsSolicitarBtn.onclick = () => {
+                fecharDetalhes();
+                // Atraso pequeno para a transição ficar mais suave
+                setTimeout(() => {
+                    abrirModalSucesso(titulo);
+                }, 200); 
+            };
+            
+            detailsModal.classList.remove('hidden');
+        }
+
+        // Fecha o modal de detalhes
+        function fecharDetalhes() {
+            detailsModal.classList.add('hidden');
+        }
+
+        // Abre o modal de sucesso final
+        function abrirModalSucesso(nomeDoLivro) {
+            successModalText.textContent = `Sua solicitação para o livro "${nomeDoLivro}" foi enviada com sucesso. Você será notificado em breve!`;
+            successModal.classList.remove('hidden');
+        }
+
+        // Fecha o modal de sucesso
+        function fecharModalSucesso() {
+            successModal.classList.add('hidden');
+        }
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educação para Todos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/Doação de Livros/styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'azul-escuro': '#1E3A8A',
+                        'azul-claro': '#3B82F6',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="max-w-md mx-auto bg-gray-50 min-h-screen">
+
+    <main id="app-container">
+
+            <!-- Página Inicial (Menu) -->
+    <div id="home-screen" class="screen">
+        <header class="bg-azul-escuro text-white p-4 rounded-b-2xl shadow-lg">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-xl font-bold">EDUCAÇÃO PARA TODOS</h1>
+                    <p class="text-azul-claro text-sm">Bem-vindo, Maria!</p>
+                </div>
+                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                    <i class="fas fa-user text-azul-escuro"></i>
+                </div>
+            </div>
+        </header>
+        
+        <div class="mt-8 px-4">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">O que você precisa?</h2>
+            
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-white rounded-xl shadow-md p-6 text-center nav-item" onclick="showScreen('donate-screen')">
+                    <div class="mx-auto bg-azul-claro w-14 h-14 rounded-full flex items-center justify-center mb-3">
+                        <i class="fas fa-book text-white text-xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-800">Doar Livro</h3>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md p-6 text-center nav-item" onclick="showScreen('search-screen')">
+                    <div class="mx-auto bg-azul-claro w-14 h-14 rounded-full flex items-center justify-center mb-3">
+                        <i class="fas fa-search text-white text-xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-800">Buscar Livros</h3>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md p-6 text-center nav-item" onclick="showScreen('mybooks-screen')">
+                    <div class="mx-auto bg-azul-claro w-14 h-14 rounded-full flex items-center justify-center mb-3">
+                        <i class="fas fa-book-open text-white text-xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-800">Meus Livros</h3>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md p-6 text-center nav-item" onclick="showScreen('profile-screen')">
+                    <div class="mx-auto bg-azul-claro w-14 h-14 rounded-full flex items-center justify-center mb-3">
+                        <i class="fas fa-user text-white text-xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-800">Perfil</h3>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-8 px-4">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Livros Disponíveis</h2>
+            
+            <div class="space-y-4">
+                <div class="book-card bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="p-4">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-lg">Livro 1</h3>
+                                <p class="text-gray-600">Autor 1</p>
+                            </div>
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Disponível</span>
+                        </div>
+                        <div class="mt-3 flex text-sm text-gray-500">
+                            <span class="mr-4"><i class="fas fa-book mr-1"></i> Editora A</span>
+                            <span><i class="fas fa-calendar mr-1"></i> 2020</span>
+                        </div>
+                        <div class="mt-4">
+                            <button class="w-full bg-azul-escuro text-white py-2 rounded-lg font-medium hover:bg-azul-claro transition">
+                                Solicitar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="book-card bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="p-4">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-lg">Livro 2</h3>
+                                <p class="text-gray-600">Autor 2</p>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">Usado</span>
+                        </div>
+                        <div class="mt-3 flex text-sm text-gray-500">
+                            <span class="mr-4"><i class="fas fa-book mr-1"></i> Editora B</span>
+                            <span><i class="fas fa-calendar mr-1"></i> 2018</span>
+                        </div>
+                        <div class="mt-4">
+                            <button class="w-full bg-azul-escuro text-white py-2 rounded-lg font-medium hover:bg-azul-claro transition">
+                                Solicitar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tela Doar Livro -->
+    <div id="donate-screen" class="screen">
+        <header class="bg-azul-escuro text-white p-4">
+            <div class="flex items-center">
+                <button onclick="showScreen('home-screen')" class="mr-4">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h1 class="text-xl font-bold">Doar Livro</h1>
+            </div>
+        </header>
+        
+        <div class="p-4">
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <form>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">Título do Livro</label>
+                        <input type="text" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-azul-claro" placeholder="Digite o título">
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">Autor</label>
+                        <input type="text" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-azul-claro" placeholder="Nome do autor">
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">Editora</label>
+                        <input type="text" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-azul-claro" placeholder="Nome da editora">
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block text-gray-700 mb-2">Ano de Publicação</label>
+                            <input type="number" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-azul-claro" placeholder="Ex: 2020">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-gray-700 mb-2">Estado de Conservação</label>
+                            <select class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-azul-claro">
+                                <option>Novo</option>
+                                <option selected>Usado</option>
+                                <option>Danificado</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">Descrição (opcional)</label>
+                        <textarea class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-azul-claro" rows="3" placeholder="Descreva o livro..."></textarea>
+                    </div>
+                    
+                    <button type="button" class="w-full bg-azul-escuro text-white py-3 rounded-lg font-semibold mt-2 hover:bg-azul-claro transition">
+                        Doar Livro
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tela Buscar Livros -->
+    <div id="search-screen" class="screen">
+        <header class="bg-azul-escuro text-white p-4">
+            <div class="flex items-center">
+                <button onclick="showScreen('home-screen')" class="mr-4">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h1 class="text-xl font-bold">Buscar Livros</h1>
+            </div>
+        </header>
+        
+        <div class="p-4">
+            <div class="relative mb-6">
+                <input type="text" class="w-full px-4 py-3 pl-12 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-azul-claro" placeholder="Palavra-chave, título ou autor">
+                <div class="absolute left-4 top-3.5 text-gray-400">
+                    <i class="fas fa-search"></i>
+                </div>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="book-card bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="p-4">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-lg">Livro 1</h3>
+                                <p class="text-gray-600">Autor 1</p>
+                            </div>
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Disponível</span>
+                        </div>
+                        <div class="mt-3 flex text-sm text-gray-500">
+                            <span class="mr-4"><i class="fas fa-book mr-1"></i> Editora A</span>
+                            <span><i class="fas fa-calendar mr-1"></i> 2020</span>
+                        </div>
+                        <div class="mt-4">
+                            <button class="w-full bg-azul-escuro text-white py-2 rounded-lg font-medium hover:bg-azul-claro transition">
+                                Solicitar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="book-card bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="p-4">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-lg">Livro 2</h3>
+                                <p class="text-gray-600">Autor 2</p>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">Usado</span>
+                        </div>
+                        <div class="mt-3 flex text-sm text-gray-500">
+                            <span class="mr-4"><i class="fas fa-book mr-1"></i> Editora B</span>
+                            <span><i class="fas fa-calendar mr-1"></i> 2018</span>
+                        </div>
+                        <div class="mt-4">
+                            <button class="w-full bg-azul-escuro text-white py-2 rounded-lg font-medium hover:bg-azul-claro transition">
+                                Solicitar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="book-card bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="p-4">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-lg">Livro 3</h3>
+                                <p class="text-gray-600">Autor 3</p>
+                            </div>
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Disponível</span>
+                        </div>
+                        <div class="mt-3 flex text-sm text-gray-500">
+                            <span class="mr-4"><i class="fas fa-book mr-1"></i> Editora C</span>
+                            <span><i class="fas fa-calendar mr-1"></i> 2021</span>
+                        </div>
+                        <div class="mt-4">
+                            <button class="w-full bg-azul-escuro text-white py-2 rounded-lg font-medium hover:bg-azul-claro transition">
+                                Solicitar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="book-card bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="p-4">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-lg">Livro 4</h3>
+                                <p class="text-gray-600">Autor 4</p>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">Usado</span>
+                        </div>
+                        <div class="mt-3 flex text-sm text-gray-500">
+                            <span class="mr-4"><i class="fas fa-book mr-1"></i> Editora D</span>
+                            <span><i class="fas fa-calendar mr-1"></i> 2019</span>
+                        </div>
+                        <div class="mt-4">
+                            <button class="w-full bg-azul-escuro text-white py-2 rounded-lg font-medium hover:bg-azul-claro transition">
+                                Solicitar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tela Meus Livros -->
+    <div id="mybooks-screen" class="screen">
+        <header class="bg-azul-escuro text-white p-4">
+            <div class="flex items-center">
+                <button onclick="showScreen('home-screen')" class="mr-4">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h1 class="text-xl font-bold">Meus Livros</h1>
+            </div>
+        </header>
+        
+        <div class="p-4">
+            <div class="flex justify-between mb-6">
+                <h2 class="text-lg font-semibold text-gray-800">Livros que estou doando</h2>
+                <span class="bg-azul-escuro text-white text-xs px-2 py-1 rounded-full">2 livros</span>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="book-card bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="p-4">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-lg">Livro 1</h3>
+                                <p class="text-gray-600">Autor 1</p>
+                            </div>
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Disponível</span>
+                        </div>
+                        <div class="mt-3 text-sm text-gray-500">
+                            <div class="flex mb-2">
+                                <span class="mr-4"><i class="fas fa-book mr-1"></i> Editora A</span>
+                                <span><i class="fas fa-calendar mr-1"></i> 2020</span>
+                            </div>
+                            <div>
+                                <span><i class="fas fa-info-circle mr-1"></i> Estado: Usado</span>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex space-x-2">
+                            <button class="flex-1 bg-red-100 text-red-700 py-2 rounded-lg font-medium">
+                                Excluir
+                            </button>
+                            <button class="flex-1 bg-azul-escuro text-white py-2 rounded-lg font-medium">
+                                Editar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="book-card bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="p-4">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-lg">Livro 2</h3>
+                                <p class="text-gray-600">Autor 2</p>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">Reservado</span>
+                        </div>
+                        <div class="mt-3 text-sm text-gray-500">
+                            <div class="flex mb-2">
+                                <span class="mr-4"><i class="fas fa-book mr-1"></i> Editora B</span>
+                                <span><i class="fas fa-calendar mr-1"></i> 2018</span>
+                            </div>
+                            <div>
+                                <span><i class="fas fa-info-circle mr-1"></i> Estado: Novo</span>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex space-x-2">
+                            <button class="flex-1 bg-red-100 text-red-700 py-2 rounded-lg font-medium">
+                                Excluir
+                            </button>
+                            <button class="flex-1 bg-azul-escuro text-white py-2 rounded-lg font-medium">
+                                Editar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tela Perfil -->
+    <div id="profile-screen" class="screen">
+        <header class="bg-azul-escuro text-white p-4">
+            <div class="flex items-center">
+                <button onclick="showScreen('home-screen')" class="mr-4">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h1 class="text-xl font-bold">Meu Perfil</h1>
+            </div>
+        </header>
+        
+        <div class="p-4">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="p-6 text-center">
+                    <div class="mx-auto w-24 h-24 rounded-full bg-azul-claro flex items-center justify-center mb-4">
+                        <i class="fas fa-user text-white text-4xl"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800">Maria Silva</h2>
+                    <p class="text-gray-600">maria@exemplo.com</p>
+                    <p class="text-gray-500 text-sm mt-2">São Paulo, SP</p>
+                </div>
+                
+                <div class="border-t border-gray-100 p-6">
+                    <button class="w-full bg-azul-escuro text-white py-3 rounded-lg font-semibold mb-3 hover:bg-azul-claro transition">
+                        <i class="fas fa-edit mr-2"></i> Editar Perfil
+                    </button>
+                    
+                    <button onclick="logout()" class="w-full bg-white text-azul-escuro border border-azul-escuro py-3 rounded-lg font-semibold hover:bg-gray-50 transition">
+                        <i class="fas fa-sign-out-alt mr-2"></i> Sair
+                    </button>
+                </div>
+            </div>
+            
+            <div class="mt-6 bg-white rounded-xl shadow-md p-6">
+                <h3 class="text-lg font-bold text-gray-800 mb-4">Meus Livros</h3>
+                
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                        <div>
+                            <h4 class="font-medium">Livro 1</h4>
+                            <p class="text-sm text-gray-500">Autor 1</p>
+                        </div>
+                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Disponível</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center py-2">
+                        <div>
+                            <h4 class="font-medium">Livro 2</h4>
+                            <p class="text-sm text-gray-500">Autor 2</p>
+                        </div>
+                        <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">Reservado</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-6 bg-white rounded-xl shadow-md p-6">
+                <h3 class="text-lg font-bold text-gray-800 mb-4">Estatísticas</h3>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-azul-escuro bg-opacity-10 p-4 rounded-lg text-center">
+                        <div class="text-3xl font-bold text-azul-escuro">12</div>
+                        <div class="text-gray-600 text-sm">Livros doados</div>
+                    </div>
+                    
+                    <div class="bg-azul-escuro bg-opacity-10 p-4 rounded-lg text-center">
+                        <div class="text-3xl font-bold text-azul-escuro">8</div>
+                        <div class="text-gray-600 text-sm">Livros recebidos</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+        <div id="main-app-wrapper" class="hidden">
+            <div class="pb-20">
+                <div id="home-screen" class="screen">
+                     </div>
+
+                <div id="donate-screen" class="screen">
+                    </div>
+
+                <div id="search-screen" class="screen">
+                    </div>
+
+                <div id="mybooks-screen" class="screen">
+                    </div>
+
+                <div id="profile-screen" class="screen">
+                    </div>
+            </div>
+
+            <div id="bottom-nav-bar"
+                class="fixed bottom-0 left-0 right-0 w-full max-w-md mx-auto bg-white shadow-lg border-t border-gray-200">
+                <div class="grid grid-cols-5 py-3">
+                    <button class="flex flex-col items-center nav-item" onclick="showScreen('home-screen')">
+                        <i class="fas fa-home text-azul-escuro text-xl"></i>
+                        <span class="text-xs mt-1 text-azul-escuro">Início</span>
+                    </button>
+                    <button class="flex flex-col items-center nav-item" onclick="showScreen('donate-screen')">
+                        <i class="fas fa-book text-gray-400 text-xl"></i>
+                        <span class="text-xs mt-1 text-gray-400">Doar</span>
+                    </button>
+                    <button class="flex flex-col items-center nav-item" onclick="showScreen('search-screen')">
+                        <i class="fas fa-search text-gray-400 text-xl"></i>
+                        <span class="text-xs mt-1 text-gray-400">Buscar</span>
+                    </button>
+                    <button class="flex flex-col items-center nav-item" onclick="showScreen('mybooks-screen')">
+                        <i class="fas fa-book-open text-gray-400 text-xl"></i>
+                        <span class="text-xs mt-1 text-gray-400">Meus Livros</span>
+                    </button>
+                    <button class="flex flex-col items-center nav-item" onclick="showScreen('profile-screen')">
+                        <i class="fas fa-user text-gray-400 text-xl"></i>
+                        <span class="text-xs mt-1 text-gray-400">Perfil</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="./firebaseConfig.js"></script>
+    <script src="./index.js"></script>
+</body>
+
+</html>
